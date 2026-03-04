@@ -186,6 +186,12 @@ function AuthorModal({
                     className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#3b82c4]/50 rounded-lg text-sm text-[#1c1c1c]/70 hover:border-[#3b82c4] hover:text-[#1a4f99] transition-colors disabled:opacity-50 w-full justify-center">
                     {uploading ? <><Loader2 size={16} className="animate-spin" />Đang tải lên...</> : <><Upload size={16} />{form.avatar_url ? 'Thay ảnh khác' : 'Chọn ảnh từ máy'}</>}
                   </button>
+                  <input
+                    className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm mt-2"
+                    value={form.avatar_url}
+                    onChange={(e) => setForm((f) => ({ ...f, avatar_url: e.target.value }))}
+                    placeholder="hoặc dán URL ảnh..."
+                  />
                   <p className="text-xs text-[#1c1c1c]/50 mt-1.5">JPG, PNG, WebP · Tối đa 5 MB</p>
                   {uploadError && <p className="text-xs text-[#1a4f99] mt-1">{uploadError}</p>}
                 </div>

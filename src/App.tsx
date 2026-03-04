@@ -5,6 +5,7 @@ import { WorksSection } from './components/WorksSection';
 import { TimelineSection } from './components/TimelineSection';
 import { LiteraryTheorySection } from './components/LiteraryTheorySection';
 import { CommentsSection } from './components/CommentsSection';
+import { GoogleEarthSection } from './components/GoogleEarthSection';
 import { Footer } from './components/Footer';
 import { EditProvider, useEditMode } from './context/EditContext';
 import { Pencil, X } from 'lucide-react';
@@ -36,6 +37,7 @@ function AppContent() {
         <WorksSection />
         <TimelineSection />
         <LiteraryTheorySection />
+        <GoogleEarthSection />
         <CommentsSection />
       </main>
       <Footer />

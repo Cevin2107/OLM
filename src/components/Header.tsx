@@ -10,6 +10,7 @@ export function Header() {
     { label: 'Tác phẩm', href: '#works' },
     { label: 'Dòng thời gian', href: '#timeline' },
     { label: 'Lí luận văn học', href: '#theory' },
+    { label: 'Bản đồ văn học', href: '#earth' },
     { label: 'Bình luận', href: '#comments' },
   ];
 
