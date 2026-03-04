@@ -87,14 +87,22 @@ export function WorkContentView({ work }: { work: Work }) {
         <div className="space-y-5">
           {work.writing_context && (
             <div>
-              <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-2">Hoàn cảnh sáng tác</p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                Hoàn cảnh sáng tác
+              </h4>
               <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.writing_context}</p>
             </div>
           )}
           {work.content_summary && (
             <div>
-              <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-2">Nội dung</p>
-              <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.content_summary}</p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                Nội dung
+              </h4>
+              <p className={`text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line ${
+                work.content_type === 'poem' ? 'text-center' : 'text-justify'
+              }`}>{work.content_summary}</p>
             </div>
           )}
           {!work.writing_context && !work.content_summary && (
@@ -108,13 +116,19 @@ export function WorkContentView({ work }: { work: Work }) {
         <div className="space-y-5">
           {work.art_features && (
             <div>
-              <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-2">Đặc sắc nghệ thuật</p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                Đặc sắc nghệ thuật
+              </h4>
               <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.art_features}</p>
             </div>
           )}
           {work.significance && (
             <div>
-              <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-2">Ý nghĩa / Giá trị</p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                Ý nghĩa / Giá trị
+              </h4>
               <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.significance}</p>
             </div>
           )}
@@ -129,9 +143,10 @@ export function WorkContentView({ work }: { work: Work }) {
         <div className="space-y-6">
           {work.youtube_embed_id && (
             <div>
-              <p className="flex items-center gap-2 text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-3">
-                <Video size={13} /> Video giảng giải
-              </p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                <Video size={15} /> Video giảng giải
+              </h4>
               <div className="aspect-video rounded-xl overflow-hidden bg-black shadow-lg">
                 <iframe
                   src={`https://www.youtube.com/embed/${work.youtube_embed_id}?rel=0&modestbranding=1`}
@@ -145,7 +160,10 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
           {imageAssets.length > 0 && (
             <div>
-              <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-3">Ảnh tư liệu</p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                Ảnh tư liệu
+              </h4>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {imageAssets.map((a) => (
                   <a key={a.id} href={a.catbox_url} target="_blank" rel="noopener noreferrer"
@@ -162,9 +180,10 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
           {work.map_coordinates && (
             <div>
-              <p className="flex items-center gap-2 text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-3">
-                <MapPin size={13} /> Bối cảnh địa lý
-              </p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                <MapPin size={15} /> Bối cảnh địa lý
+              </h4>
               <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
                 <iframe src={`https://www.google.com/maps?q=${work.map_coordinates}&output=embed&z=15`}
                   className="w-full h-full" loading="lazy" />
@@ -188,9 +207,10 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
           {work.reference_links && work.reference_links.length > 0 && (
             <div>
-              <p className="flex items-center gap-2 text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-3">
-                <ExternalLink size={13} /> Tài liệu tham khảo
-              </p>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+                <ExternalLink size={15} /> Tài liệu tham khảo
+              </h4>
               <ul className="space-y-2">
                 {work.reference_links.map((link, i) => (
                   <li key={i}>

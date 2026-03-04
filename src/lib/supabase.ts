@@ -58,6 +58,7 @@ export type Work = {
   art_features: string | null;
   significance: string | null;
   reference_links: RefLink[] | null;
+  content_type: 'prose' | 'poem' | null;
   created_at: string;
   updated_at: string;
   author?: Author;

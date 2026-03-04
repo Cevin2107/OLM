@@ -94,6 +94,7 @@ ALTER TABLE works ADD COLUMN IF NOT EXISTS writing_context  text;
 ALTER TABLE works ADD COLUMN IF NOT EXISTS content_summary  text;
 ALTER TABLE works ADD COLUMN IF NOT EXISTS art_features     text;
 ALTER TABLE works ADD COLUMN IF NOT EXISTS significance     text;
+ALTER TABLE works ADD COLUMN IF NOT EXISTS content_type     text DEFAULT 'prose';
 
 -- Index cho genre_id (thêm sau migration để tránh lỗi nếu bảng works đã tồn tại)
 CREATE INDEX IF NOT EXISTS idx_works_genre_id ON works(genre_id);

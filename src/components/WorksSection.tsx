@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase, type Work, type Author, type LiteraryPeriod, type Genre, type RefLink } from '../lib/supabase';
 import { WorkContentView } from './WorkContentView';
-import { BookMarked, MapPin, Video, Pencil, Trash2, Plus, X, Save, Image, Clock, ExternalLink, Upload, Loader2 } from 'lucide-react';
+import { BookMarked, MapPin, Video, Pencil, Trash2, Plus, X, Save, Image, Clock, ExternalLink, Upload, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEditMode } from '../context/EditContext';
 
 const COVER_BUCKET = 'work-covers';
@@ -22,6 +22,7 @@ type WorkFormData = {
   map_coordinates: string;
   composition_year: string;
   reference_links: RefLink[];
+  content_type: 'prose' | 'poem';
 };
 
 type AssetRow = { id?: string; catbox_url: string; asset_type: string; description: string };
@@ -51,6 +52,7 @@ function WorkModal({
     map_coordinates: work?.map_coordinates ?? '',
     composition_year: work?.composition_year ?? '',
     reference_links: work?.reference_links ?? [],
+    content_type: (work?.content_type as 'prose' | 'poem') ?? 'prose',
   });
   const [authors, setAuthors] = useState<Author[]>([]);
   const [periods, setPeriods] = useState<LiteraryPeriod[]>([]);
@@ -146,6 +148,7 @@ function WorkModal({
             map_coordinates: form.map_coordinates.trim() || null,
             composition_year: form.composition_year.trim() || null,
             reference_links: form.reference_links.filter((r) => r.url.trim()),
+            content_type: form.content_type,
           })
           .eq('id', work.id);
         if (error) throw error;
@@ -168,6 +171,7 @@ function WorkModal({
             map_coordinates: form.map_coordinates.trim() || null,
             composition_year: form.composition_year.trim() || null,
             reference_links: form.reference_links.filter((r) => r.url.trim()),
+            content_type: form.content_type,
           })
           .select('id')
           .single();
@@ -366,8 +370,36 @@ function WorkModal({
             <div>
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Nội dung (tóm tắt)</label>
               <p className="text-xs text-[#1c1c1c]/50 mb-1.5">Tóm tắt cốt truyện, chủ đề, tư tưởng chính</p>
+              {/* Loại văn bản */}
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-semibold text-[#1c1c1c]/60">Kiểu văn bản:</span>
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, content_type: 'prose' }))}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
+                    form.content_type === 'prose'
+                      ? 'bg-[#8b2500] text-white border-[#8b2500]'
+                      : 'bg-white text-[#1c1c1c]/60 border-[#c89b3c]/40 hover:border-[#c89b3c]'
+                  }`}
+                >
+                  ═ Truyện (căn 2 bên)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, content_type: 'poem' }))}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
+                    form.content_type === 'poem'
+                      ? 'bg-[#8b2500] text-white border-[#8b2500]'
+                      : 'bg-white text-[#1c1c1c]/60 border-[#c89b3c]/40 hover:border-[#c89b3c]'
+                  }`}
+                >
+                  ≣ Thơ (căn giữa)
+                </button>
+              </div>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[120px] resize-y"
+                className={`w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[120px] resize-y ${
+                  form.content_type === 'poem' ? 'text-center' : 'text-justify'
+                }`}
                 value={form.content_summary}
                 onChange={(e) => setForm((f) => ({ ...f, content_summary: e.target.value }))}
                 placeholder="Truyện kể về cuộc đời đầy bi kịch của Thúy Kiều..."
@@ -583,12 +615,34 @@ export function WorksSection() {
   const [selectedWork, setSelectedWork] = useState<Work | null>(null);
   const [modalWork, setModalWork] = useState<Work | null | 'new'>(null);
   const { isEditMode } = useEditMode();
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  function updateScrollButtons() {
+    const el = carouselRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }
+
+  function scrollCarousel(dir: 'left' | 'right') {
+    const el = carouselRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'left' ? -el.clientWidth * 0.8 : el.clientWidth * 0.8, behavior: 'smooth' });
+  }
 
   useEffect(() => {
     fetchWorks();
     supabase.from('genres').select('*').order('sort_order').order('name')
       .then(({ data }) => setGenres(data || []));
   }, []);
+
+  useEffect(() => {
+    // Reset scroll and update buttons when filter changes
+    if (carouselRef.current) carouselRef.current.scrollLeft = 0;
+    setTimeout(updateScrollButtons, 50);
+  }, [selectedGenreId, works]);
 
   async function fetchWorks() {
     try {
@@ -673,13 +727,44 @@ export function WorksSection() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {works.filter((w) => selectedGenreId === null || w.genre_id === selectedGenreId).length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-[#e0d8c8]/60 text-lg">
+              Chưa có dữ liệu tác phẩm.{' '}
+              {isEditMode && (
+                <button onClick={() => setModalWork('new')} className="text-[#c89b3c] underline">
+                  Thêm tác phẩm đầu tiên
+                </button>
+              )}
+            </p>
+          </div>
+        ) : (
+          <div className="relative">
+            {/* Left arrow */}
+            <button
+              onClick={() => scrollCarousel('left')}
+              disabled={!canScrollLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              aria-label="Cuộn trái"
+            >
+              <ChevronLeft size={22} />
+            </button>
+
+            {/* Scroll container */}
+            <div
+              ref={carouselRef}
+              onScroll={updateScrollButtons}
+              className="flex gap-5 overflow-x-auto scroll-smooth pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
           {works
             .filter((w) => selectedGenreId === null || w.genre_id === selectedGenreId)
             .map((work) => (
             <div
               key={work.id}
-              className="spotlight-hover bg-[#f4ecd8] rounded-lg overflow-hidden relative group cursor-pointer"
+              className="flex-none w-52"
+            >
+            <div
+              className="spotlight-hover bg-[#f4ecd8] rounded-lg overflow-hidden relative group cursor-pointer h-full"
               onClick={() => !isEditMode && setSelectedWork(work)}
             >
               {isEditMode && (
@@ -762,19 +847,19 @@ export function WorksSection() {
                 )}
               </div>
             </div>
+            </div>
           ))}
-        </div>
+            </div>
 
-        {works.filter((w) => selectedGenreId === null || w.genre_id === selectedGenreId).length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-[#e0d8c8]/60 text-lg">
-              Chưa có dữ liệu tác phẩm.{' '}
-              {isEditMode && (
-                <button onClick={() => setModalWork('new')} className="text-[#c89b3c] underline">
-                  Thêm tác phẩm đầu tiên
-                </button>
-              )}
-            </p>
+            {/* Right arrow */}
+            <button
+              onClick={() => scrollCarousel('right')}
+              disabled={!canScrollRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              aria-label="Cuộn phải"
+            >
+              <ChevronRight size={22} />
+            </button>
           </div>
         )}
       </div>

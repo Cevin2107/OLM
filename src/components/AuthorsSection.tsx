@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase, type Author, type Work } from '../lib/supabase';
 import { WorkContentView } from './WorkContentView';
-import { User, MapPin, Pencil, Trash2, Plus, X, Save, Upload, Loader2 } from 'lucide-react';
+import { User, MapPin, Pencil, Trash2, Plus, X, Save, Upload, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEditMode } from '../context/EditContext';
 
 const STORAGE_BUCKET = 'author-avatars';
@@ -616,10 +616,30 @@ export function AuthorsSection() {
   const [modalAuthor, setModalAuthor] = useState<Author | null | 'new'>(null);
   const [detailAuthor, setDetailAuthor] = useState<Author | null>(null);
   const { isEditMode } = useEditMode();
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  function updateScrollButtons() {
+    const el = carouselRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }
+
+  function scrollCarousel(dir: 'left' | 'right') {
+    const el = carouselRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'left' ? -el.clientWidth * 0.8 : el.clientWidth * 0.8, behavior: 'smooth' });
+  }
 
   useEffect(() => {
     fetchAuthors();
   }, []);
+
+  useEffect(() => {
+    updateScrollButtons();
+  }, [authors]);
 
   async function fetchAuthors() {
     try {
@@ -683,20 +703,7 @@ export function AuthorsSection() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {authors.map((author) => (
-            <AuthorCard
-              key={author.id}
-              author={author}
-              isEditMode={isEditMode}
-              onEdit={() => setModalAuthor(author)}
-              onDelete={() => handleDelete(author)}
-              onClick={() => setDetailAuthor(author)}
-            />
-          ))}
-        </div>
-
-        {authors.length === 0 && (
+        {authors.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-[#e0d8c8]/60 text-lg">
               Chưa có dữ liệu tác giả.{' '}
@@ -706,6 +713,47 @@ export function AuthorsSection() {
                 </button>
               )}
             </p>
+          </div>
+        ) : (
+          <div className="relative">
+            {/* Left arrow */}
+            <button
+              onClick={() => scrollCarousel('left')}
+              disabled={!canScrollLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              aria-label="Cuộn trái"
+            >
+              <ChevronLeft size={22} />
+            </button>
+
+            {/* Scroll container */}
+            <div
+              ref={carouselRef}
+              onScroll={updateScrollButtons}
+              className="flex gap-5 overflow-x-auto scroll-smooth pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+              {authors.map((author) => (
+                <div key={author.id} className="flex-none w-52">
+                  <AuthorCard
+                    author={author}
+                    isEditMode={isEditMode}
+                    onEdit={() => setModalAuthor(author)}
+                    onDelete={() => handleDelete(author)}
+                    onClick={() => setDetailAuthor(author)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Right arrow */}
+            <button
+              onClick={() => scrollCarousel('right')}
+              disabled={!canScrollRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              aria-label="Cuộn phải"
+            >
+              <ChevronRight size={22} />
+            </button>
           </div>
         )}
       </div>
