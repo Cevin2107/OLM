@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase, type Work, type MultimediaAsset } from '../lib/supabase';
 import { Clock, ExternalLink, MapPin, Video, BookOpen, Palette, Archive, Link2 } from 'lucide-react';
+import { MarkdownText } from '../lib/markdownText';
 
 type Tab = 'analysis' | 'art' | 'media' | 'refs';
 
@@ -34,24 +35,24 @@ export function WorkContentView({ work }: { work: Work }) {
       {/* ── Meta badges ── */}
       <div className="flex flex-wrap items-center gap-2">
         {work.period && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#2c241b] text-[#c89b3c] text-sm font-medium rounded-full">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1b2d47] text-[#3b82c4] text-sm font-medium rounded-full">
             <Clock size={12} />
             {work.period.period_name}
             {work.period.start_year && work.period.end_year && (
-              <span className="text-[#c89b3c]/70">
+              <span className="text-[#3b82c4]/70">
                 ({work.period.start_year}–{work.period.end_year})
               </span>
             )}
           </span>
         )}
         {work.composition_year && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#8b2500]/15 text-[#8b2500] text-sm font-medium rounded-full border border-[#8b2500]/20">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1a4f99]/15 text-[#1a4f99] text-sm font-medium rounded-full border border-[#1a4f99]/20">
             <Clock size={12} />
             Sáng tác: {work.composition_year}
           </span>
         )}
         {work.genre && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1a3a2a]/60 text-emerald-400 text-sm font-medium rounded-full">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1a2e50]/60 text-emerald-400 text-sm font-medium rounded-full">
             {work.genre.name}
           </span>
         )}
@@ -59,20 +60,20 @@ export function WorkContentView({ work }: { work: Work }) {
 
       {/* ── Trích dẫn nổi bật ── */}
       {work.excerpt && (
-        <blockquote className="border-l-4 border-[#c89b3c] pl-5 py-1 italic text-[#1c1c1c]/80 text-lg leading-relaxed">
+        <blockquote className="border-l-4 border-[#3b82c4] pl-5 py-1 italic text-[#1c1c1c]/80 text-lg leading-relaxed">
           "{work.excerpt}"
         </blockquote>
       )}
 
       {/* ── Tab bar ── */}
-      <div className="flex gap-0.5 border-b border-[#c89b3c]/20">
+      <div className="flex gap-0.5 border-b border-[#3b82c4]/20">
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors border-b-2 -mb-px ${
               tab === t.key
-                ? 'border-[#c89b3c] text-[#8b2500]'
+                ? 'border-[#3b82c4] text-[#1a4f99]'
                 : 'border-transparent text-[#1c1c1c]/50 hover:text-[#1c1c1c]'
             }`}
           >
@@ -83,26 +84,25 @@ export function WorkContentView({ work }: { work: Work }) {
       </div>
 
       {/* ── Nội dung ── */}
+      <div key={tab} className="tab-panel">
       {tab === 'analysis' && (
         <div className="space-y-5">
           {work.writing_context && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 Hoàn cảnh sáng tác
               </h4>
-              <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.writing_context}</p>
+              <MarkdownText text={work.writing_context} />
             </div>
           )}
           {work.content_summary && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 Nội dung
               </h4>
-              <p className={`text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line ${
-                work.content_type === 'poem' ? 'text-center' : 'text-justify'
-              }`}>{work.content_summary}</p>
+              <MarkdownText text={work.content_summary} />
             </div>
           )}
           {!work.writing_context && !work.content_summary && (
@@ -116,20 +116,20 @@ export function WorkContentView({ work }: { work: Work }) {
         <div className="space-y-5">
           {work.art_features && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 Đặc sắc nghệ thuật
               </h4>
-              <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.art_features}</p>
+              <MarkdownText text={work.art_features} />
             </div>
           )}
           {work.significance && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 Ý nghĩa / Giá trị
               </h4>
-              <p className="text-[#1c1c1c]/85 leading-relaxed whitespace-pre-line">{work.significance}</p>
+              <MarkdownText text={work.significance} />
             </div>
           )}
           {!work.art_features && !work.significance && (
@@ -143,8 +143,8 @@ export function WorkContentView({ work }: { work: Work }) {
         <div className="space-y-6">
           {work.youtube_embed_id && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 <Video size={15} /> Video giảng giải
               </h4>
               <div className="aspect-video rounded-xl overflow-hidden bg-black shadow-lg">
@@ -160,14 +160,14 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
           {imageAssets.length > 0 && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 Ảnh tư liệu
               </h4>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {imageAssets.map((a) => (
                   <a key={a.id} href={a.catbox_url} target="_blank" rel="noopener noreferrer"
-                    className="block rounded-lg overflow-hidden border border-[#c89b3c]/20 hover:border-[#c89b3c] transition-colors">
+                    className="block rounded-lg overflow-hidden border border-[#3b82c4]/20 hover:border-[#3b82c4] transition-colors">
                     <img src={a.catbox_url} alt={a.description || ''} className="w-full h-36 object-cover"
                       onError={(e) => (e.currentTarget.parentElement!.style.display = 'none')} />
                     {a.description && (
@@ -180,8 +180,8 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
           {work.map_coordinates && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 <MapPin size={15} /> Bối cảnh địa lý
               </h4>
               <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
@@ -200,22 +200,25 @@ export function WorkContentView({ work }: { work: Work }) {
       {tab === 'refs' && (
         <div className="space-y-5">
           {work.content_html && (
-            <div
-              className="prose prose-lg max-w-none text-[#1c1c1c] prose-headings:font-serif prose-headings:text-[#1c1c1c] prose-a:text-[#8b2500]"
-              dangerouslySetInnerHTML={{ __html: work.content_html }}
-            />
+            <div>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
+                Nội dung chi tiết
+              </h4>
+              <MarkdownText text={work.content_html} poem={work.content_type === 'poem'} />
+            </div>
           )}
           {work.reference_links && work.reference_links.length > 0 && (
             <div>
-              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#8b2500] mb-4 pb-2 border-b-2 border-[#c89b3c]/40">
-                <span className="w-1.5 h-6 rounded-full bg-[#c89b3c] inline-block flex-shrink-0"></span>
+              <h4 className="flex items-center gap-3 text-xl font-serif font-bold text-[#1a4f99] mb-4 pb-2 border-b-2 border-[#3b82c4]/40">
+                <span className="w-1.5 h-6 rounded-full bg-[#3b82c4] inline-block flex-shrink-0"></span>
                 <ExternalLink size={15} /> Tài liệu tham khảo
               </h4>
               <ul className="space-y-2">
                 {work.reference_links.map((link, i) => (
                   <li key={i}>
                     <a href={link.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-[#8b2500] hover:text-[#c89b3c] transition-colors text-sm font-medium underline underline-offset-2">
+                      className="inline-flex items-center gap-2 text-[#1a4f99] hover:text-[#3b82c4] transition-colors text-sm font-medium underline underline-offset-2">
                       <ExternalLink size={13} />
                       {link.title || link.url}
                     </a>
@@ -229,6 +232,7 @@ export function WorkContentView({ work }: { work: Work }) {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }

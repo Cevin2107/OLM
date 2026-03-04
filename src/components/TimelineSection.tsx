@@ -63,7 +63,7 @@ function PeriodModal({
       onClick={onClose}
     >
       <div
-        className="bg-[#f4ecd8] rounded-lg max-w-lg w-full p-8 my-auto"
+        className="bg-[#eff4fc] rounded-lg max-w-lg w-full p-4 md:p-8 my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
@@ -78,10 +78,10 @@ function PeriodModal({
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">
-              Tên giai đoạn <span className="text-[#8b2500]">*</span>
+              Tên giai đoạn <span className="text-[#1a4f99]">*</span>
             </label>
             <input
-              className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+              className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
               value={form.period_name}
               onChange={(e) => setForm((f) => ({ ...f, period_name: e.target.value }))}
               placeholder="Văn học trung đại"
@@ -93,7 +93,7 @@ function PeriodModal({
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Bắt đầu</label>
               <input
                 type="text"
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                 value={form.start_year}
                 onChange={(e) => setForm((f) => ({ ...f, start_year: e.target.value }))}
                 placeholder="Thế kỷ X"
@@ -103,7 +103,7 @@ function PeriodModal({
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Kết thúc</label>
               <input
                 type="text"
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                 value={form.end_year}
                 onChange={(e) => setForm((f) => ({ ...f, end_year: e.target.value }))}
                 placeholder="Thế kỷ XIX"
@@ -114,7 +114,7 @@ function PeriodModal({
           <div>
             <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Bối cảnh lịch sử</label>
             <textarea
-              className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[100px] resize-y"
+              className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[100px] resize-y"
               value={form.historical_context}
               onChange={(e) => setForm((f) => ({ ...f, historical_context: e.target.value }))}
               placeholder="Mô tả bối cảnh lịch sử của giai đoạn này..."
@@ -126,7 +126,7 @@ function PeriodModal({
           <button
             onClick={handleSave}
             disabled={saving || !form.period_name.trim()}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#c89b3c] text-[#1c1c1c] font-semibold rounded hover:bg-[#a07830] disabled:opacity-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#3b82c4] text-[#1c1c1c] font-semibold rounded hover:bg-[#2d6db5] disabled:opacity-50 transition-colors"
           >
             <Save size={16} />
             {saving ? 'Đang lưu...' : 'Lưu'}
@@ -160,7 +160,7 @@ function PeriodWorks({ periodId, onWorkClick }: { periodId: string; onWorkClick:
   }, [periodId]);
 
   if (loading) {
-    return <div className="py-4 text-center text-[#c89b3c]/60 text-sm animate-pulse">Đang tải tác phẩm...</div>;
+    return <div className="py-4 text-center text-[#3b82c4]/60 text-sm animate-pulse">Đang tải tác phẩm...</div>;
   }
 
   if (works.length === 0) {
@@ -173,19 +173,19 @@ function PeriodWorks({ periodId, onWorkClick }: { periodId: string; onWorkClick:
         <button
           key={work.id}
           onClick={(e) => { e.stopPropagation(); onWorkClick(work); }}
-          className="flex items-start gap-3 bg-[#2c241b] rounded-lg px-4 py-3 text-left hover:bg-[#3a2f24] hover:ring-1 hover:ring-[#c89b3c]/40 transition-all duration-200 group w-full"
+          className="flex items-start gap-3 bg-[#1b2d47] rounded-lg px-4 py-3 text-left hover:bg-[#3a2f24] hover:ring-1 hover:ring-[#3b82c4]/40 transition-all duration-200 group w-full"
         >
-          <BookMarked size={16} className="text-[#c89b3c] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
+          <BookMarked size={16} className="text-[#3b82c4] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
           <div className="flex-1 min-w-0">
-            <p className="font-serif font-semibold text-[#e0d8c8] leading-tight group-hover:text-[#c89b3c] transition-colors">{work.title}</p>
+            <p className="font-serif font-semibold text-[#ccd8ef] leading-tight group-hover:text-[#3b82c4] transition-colors">{work.title}</p>
             {work.author && (
-              <p className="text-xs text-[#c89b3c]/80 mt-0.5">{work.author.name}</p>
+              <p className="text-xs text-[#3b82c4]/80 mt-0.5">{work.author.name}</p>
             )}
             {work.excerpt && (
-              <p className="text-xs text-[#e0d8c8]/60 italic mt-1 line-clamp-2">"{work.excerpt}"</p>
+              <p className="text-xs text-[#ccd8ef]/60 italic mt-1 line-clamp-2">"{work.excerpt}"</p>
             )}
           </div>
-          <span className="text-[#c89b3c]/40 group-hover:text-[#c89b3c] text-xs mt-0.5 flex-shrink-0">→</span>
+          <span className="text-[#3b82c4]/40 group-hover:text-[#3b82c4] text-xs mt-0.5 flex-shrink-0">→</span>
         </button>
       ))}
     </div>
@@ -259,21 +259,21 @@ export function TimelineSection() {
     return (
       <section id="timeline" className="py-20 px-4">
         <div className="container mx-auto text-center">
-          <div className="animate-pulse text-[#c89b3c]">Đang tải...</div>
+          <div className="animate-pulse text-[#3b82c4]">Đang tải...</div>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="timeline" className="py-20 px-4 bg-gradient-to-b from-[#2c241b] to-[#1a1a1a]">
+    <section id="timeline" className="py-20 px-4 bg-gradient-to-b from-[#1b2d47] to-[#1a1a1a]">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#c89b3c] tracking-wider uppercase mb-4">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-[#3b82c4] tracking-wider uppercase mb-4">
             Dòng Thời Gian Văn Học
           </h2>
-          <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#c89b3c] to-transparent mx-auto mb-6"></div>
-          <p className="text-xl text-[#e0d8c8]/80 max-w-2xl mx-auto">
+          <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#3b82c4] to-transparent mx-auto mb-6"></div>
+          <p className="text-base md:text-xl text-[#ccd8ef]/80 max-w-2xl mx-auto">
             Hành trình phát triển của văn học Việt Nam qua các giai đoạn lịch sử
           </p>
         </div>
@@ -282,7 +282,7 @@ export function TimelineSection() {
           <div className="flex justify-end mb-6 max-w-4xl mx-auto">
             <button
               onClick={() => setModalPeriod('new')}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#c89b3c] text-[#1a1a1a] font-semibold rounded-lg hover:bg-[#a07830] transition-colors shadow-lg"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#3b82c4] text-[#1a1a1a] font-semibold rounded-lg hover:bg-[#2d6db5] transition-colors shadow-lg"
             >
               <Plus size={18} />
               Thêm giai đoạn
@@ -305,22 +305,22 @@ export function TimelineSection() {
                 onDrop={() => handleDrop(index)}
                 onDragEnd={() => { setDragOverIndex(null); dragIndex.current = null; }}
               >
-                <div className="flex items-start gap-6">
+                <div className="flex items-start gap-3 md:gap-6">
                   <div className="flex-shrink-0 relative">
-                    <div className="w-16 h-16 bg-[#c89b3c] rounded-full flex items-center justify-center shadow-lg shadow-[#c89b3c]/30">
-                      <Clock className="w-8 h-8 text-[#1a1a1a]" strokeWidth={2} />
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-[#3b82c4] rounded-full flex items-center justify-center shadow-lg shadow-[#3b82c4]/30">
+                      <Clock className="w-6 h-6 md:w-8 md:h-8 text-[#1a1a1a]" strokeWidth={2} />
                     </div>
                     {index < periods.length - 1 && (
-                      <div className="absolute top-16 left-8 w-px h-full bg-gradient-to-b from-[#c89b3c] to-transparent"></div>
+                      <div className="absolute top-12 md:top-16 left-6 md:left-8 w-px h-full bg-gradient-to-b from-[#3b82c4] to-transparent"></div>
                     )}
                   </div>
 
                   <div className="flex-1 pb-8">
                     <div
-                    className={`bg-[#f4ecd8] rounded-lg p-6 spotlight-hover cursor-pointer transition-all duration-200 ${
-                      isExpanded ? 'ring-2 ring-[#c89b3c]' : ''
+                    className={`bg-[#eff4fc] rounded-lg p-4 md:p-6 spotlight-hover cursor-pointer transition-all duration-200 ${
+                      isExpanded ? 'ring-2 ring-[#3b82c4]' : ''
                     } ${
-                      isDragOver ? 'border-2 border-dashed border-[#c89b3c] opacity-70' : ''
+                      isDragOver ? 'border-2 border-dashed border-[#3b82c4] opacity-70' : ''
                     }`}
                     onClick={() => toggleExpand(period.id)}
                   >
@@ -328,13 +328,13 @@ export function TimelineSection() {
                       <div className="flex-1">
                         <div className="flex items-baseline gap-3 mb-2">
                           {isEditMode && (
-                            <GripVertical size={16} className="text-[#1c1c1c]/30 hover:text-[#c89b3c] cursor-grab active:cursor-grabbing flex-shrink-0 self-center" onClick={(e) => e.stopPropagation()} />
+                            <GripVertical size={16} className="text-[#1c1c1c]/30 hover:text-[#3b82c4] cursor-grab active:cursor-grabbing flex-shrink-0 self-center" onClick={(e) => e.stopPropagation()} />
                           )}
-                            <h3 className="text-2xl font-serif font-bold text-[#1c1c1c]">
+                            <h3 className="text-xl md:text-2xl font-serif font-bold text-[#1c1c1c]">
                               {period.period_name}
                             </h3>
                             {period.start_year && period.end_year && (
-                              <span className="text-[#8b2500] font-medium text-sm">
+                              <span className="text-[#1a4f99] font-medium text-sm">
                                 ({period.start_year} – {period.end_year})
                               </span>
                             )}
@@ -352,14 +352,14 @@ export function TimelineSection() {
                             <>
                               <button
                                 onClick={(e) => { e.stopPropagation(); setModalPeriod(period); }}
-                                className="w-7 h-7 bg-[#c89b3c] rounded-full flex items-center justify-center hover:bg-[#a07830] transition-colors"
+                                className="w-7 h-7 bg-[#3b82c4] rounded-full flex items-center justify-center hover:bg-[#2d6db5] transition-colors"
                                 title="Sửa giai đoạn"
                               >
                                 <Pencil size={12} className="text-[#1a1a1a]" />
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); handleDelete(period); }}
-                                className="w-7 h-7 bg-[#8b2500] rounded-full flex items-center justify-center hover:bg-[#6b1a00] transition-colors"
+                                className="w-7 h-7 bg-[#1a4f99] rounded-full flex items-center justify-center hover:bg-[#143d7a] transition-colors"
                                 title="Xóa giai đoạn"
                               >
                                 <Trash2 size={12} className="text-white" />
@@ -367,7 +367,7 @@ export function TimelineSection() {
                             </>
                           )}
                           <button
-                            className="w-7 h-7 rounded-full bg-[#2c241b] flex items-center justify-center text-[#c89b3c] hover:bg-[#c89b3c] hover:text-[#1a1a1a] transition-colors"
+                            className="w-7 h-7 rounded-full bg-[#1b2d47] flex items-center justify-center text-[#3b82c4] hover:bg-[#3b82c4] hover:text-[#1a1a1a] transition-colors"
                             title={isExpanded ? 'Thu gọn' : 'Xem tác phẩm'}
                           >
                             {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -378,10 +378,10 @@ export function TimelineSection() {
                       {/* Works panel */}
                       {isExpanded && (
                         <div
-                          className="mt-4 border-t border-[#c89b3c]/20 pt-4"
+                          className="mt-4 border-t border-[#3b82c4]/20 pt-4"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <p className="text-xs font-semibold text-[#8b2500] uppercase tracking-widest mb-2">
+                          <p className="text-xs font-semibold text-[#1a4f99] uppercase tracking-widest mb-2">
                             Tác phẩm trong giai đoạn này
                           </p>
                           <PeriodWorks periodId={period.id} onWorkClick={setSelectedWork} />
@@ -397,10 +397,10 @@ export function TimelineSection() {
 
         {periods.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-[#e0d8c8]/60 text-lg">
+            <p className="text-[#ccd8ef]/60 text-lg">
               Chưa có dữ liệu dòng thời gian.{' '}
               {isEditMode && (
-                <button onClick={() => setModalPeriod('new')} className="text-[#c89b3c] underline">
+                <button onClick={() => setModalPeriod('new')} className="text-[#3b82c4] underline">
                   Thêm giai đoạn đầu tiên
                 </button>
               )}

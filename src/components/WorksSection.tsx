@@ -216,7 +216,7 @@ function WorkModal({
       onClick={onClose}
     >
       <div
-        className="bg-[#f4ecd8] rounded-lg max-w-2xl w-full p-8 my-auto"
+        className="bg-[#eff4fc] rounded-lg max-w-2xl w-full p-4 md:p-8 my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -229,14 +229,14 @@ function WorkModal({
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 border-b border-[#c89b3c]/30 overflow-x-auto">
+        <div className="flex gap-1 mb-6 border-b border-[#3b82c4]/30 overflow-x-auto">
           {(['info', 'analysis', 'extra', 'media'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors border-b-2 -mb-px ${
                 tab === t
-                  ? 'border-[#c89b3c] text-[#8b2500]'
+                  ? 'border-[#3b82c4] text-[#1a4f99]'
                   : 'border-transparent text-[#1c1c1c]/60 hover:text-[#1c1c1c]'
               }`}
             >
@@ -249,10 +249,10 @@ function WorkModal({
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">
-                Tên tác phẩm <span className="text-[#8b2500]">*</span>
+                Tên tác phẩm <span className="text-[#1a4f99]">*</span>
               </label>
               <input
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 placeholder="Truyện Kiều"
@@ -263,7 +263,7 @@ function WorkModal({
               <div>
                 <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Tác giả</label>
                 <select
-                  className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                  className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                   value={form.author_id}
                   onChange={(e) => setForm((f) => ({ ...f, author_id: e.target.value }))}
                 >
@@ -276,7 +276,7 @@ function WorkModal({
               <div>
                 <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Giai đoạn</label>
                 <select
-                  className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                  className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                   value={form.period_id}
                   onChange={(e) => setForm((f) => ({ ...f, period_id: e.target.value }))}
                 >
@@ -291,7 +291,7 @@ function WorkModal({
             <div>
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Thể loại</label>
               <select
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                 value={form.genre_id}
                 onChange={(e) => setForm((f) => ({ ...f, genre_id: e.target.value }))}
               >
@@ -302,14 +302,14 @@ function WorkModal({
               </select>
               <div className="flex gap-2 mt-2">
                 <input
-                  className="flex-1 border border-[#c89b3c]/40 rounded px-3 py-1.5 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                  className="flex-1 border border-[#3b82c4]/40 rounded px-3 py-1.5 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                   value={newGenreName}
                   onChange={(e) => setNewGenreName(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddGenre()}
                   placeholder="Tạo thể loại mới..."
                 />
                 <button type="button" onClick={handleAddGenre} disabled={!newGenreName.trim() || addingGenre}
-                  className="px-3 py-1.5 bg-[#c89b3c] text-[#1a1a1a] text-sm font-semibold rounded hover:bg-[#a07830] disabled:opacity-40 transition-colors whitespace-nowrap">
+                  className="px-3 py-1.5 bg-[#3b82c4] text-[#1a1a1a] text-sm font-semibold rounded hover:bg-[#2d6db5] disabled:opacity-40 transition-colors whitespace-nowrap">
                   + Thêm
                 </button>
               </div>
@@ -321,24 +321,24 @@ function WorkModal({
               <input ref={coverFileInputRef} type="file" accept="image/*" className="hidden" onChange={handleCoverFileChange} />
               <div className="flex items-start gap-3">
                 {form.cover_image_url ? (
-                  <img src={form.cover_image_url} alt="cover" className="w-20 h-28 object-cover rounded border border-[#c89b3c]/30 flex-shrink-0" />
+                  <img src={form.cover_image_url} alt="cover" className="w-20 h-28 object-cover rounded border border-[#3b82c4]/30 flex-shrink-0" />
                 ) : (
-                  <div className="w-20 h-28 rounded border-2 border-dashed border-[#c89b3c]/30 flex items-center justify-center flex-shrink-0">
-                    <BookMarked size={24} className="text-[#c89b3c]/40" />
+                  <div className="w-20 h-28 rounded border-2 border-dashed border-[#3b82c4]/30 flex items-center justify-center flex-shrink-0">
+                    <BookMarked size={24} className="text-[#3b82c4]/40" />
                   </div>
                 )}
                 <div className="flex-1 space-y-2">
                   <button type="button" onClick={() => coverFileInputRef.current?.click()} disabled={uploading}
-                    className="w-full px-3 py-2 border border-[#c89b3c]/40 rounded text-sm text-[#1c1c1c] hover:border-[#c89b3c] transition-colors disabled:opacity-50">
+                    className="w-full px-3 py-2 border border-[#3b82c4]/40 rounded text-sm text-[#1c1c1c] hover:border-[#3b82c4] transition-colors disabled:opacity-50">
                     {uploading ? 'Đang tải...' : 'Chọn ảnh từ thiết bị'}
                   </button>
                   <input
-                    className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                    className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                     value={form.cover_image_url}
                     onChange={(e) => setForm((f) => ({ ...f, cover_image_url: e.target.value }))}
                     placeholder="hoặc dán URL ảnh..."
                   />
-                  {uploadError && <p className="text-xs text-[#8b2500]">{uploadError}</p>}
+                  {uploadError && <p className="text-xs text-[#1a4f99]">{uploadError}</p>}
                 </div>
               </div>
             </div>
@@ -346,7 +346,7 @@ function WorkModal({
             <div>
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Trích dẫn nổi bật</label>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[80px] resize-y"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[80px] resize-y"
                 value={form.excerpt}
                 onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
                 placeholder="Trăm năm trong cõi người ta..."
@@ -361,7 +361,7 @@ function WorkModal({
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Hoàn cảnh sáng tác</label>
               <p className="text-xs text-[#1c1c1c]/50 mb-1.5">Bối cảnh lịch sử, cuộc đời tác giả khi viết tác phẩm</p>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[100px] resize-y"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[100px] resize-y"
                 value={form.writing_context}
                 onChange={(e) => setForm((f) => ({ ...f, writing_context: e.target.value }))}
                 placeholder="Truyện Kiều được Nguyễn Du sáng tác vào đầu thế kỷ XIX, trong bối cảnh..."
@@ -370,36 +370,8 @@ function WorkModal({
             <div>
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Nội dung (tóm tắt)</label>
               <p className="text-xs text-[#1c1c1c]/50 mb-1.5">Tóm tắt cốt truyện, chủ đề, tư tưởng chính</p>
-              {/* Loại văn bản */}
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-semibold text-[#1c1c1c]/60">Kiểu văn bản:</span>
-                <button
-                  type="button"
-                  onClick={() => setForm((f) => ({ ...f, content_type: 'prose' }))}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
-                    form.content_type === 'prose'
-                      ? 'bg-[#8b2500] text-white border-[#8b2500]'
-                      : 'bg-white text-[#1c1c1c]/60 border-[#c89b3c]/40 hover:border-[#c89b3c]'
-                  }`}
-                >
-                  ═ Truyện (căn 2 bên)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setForm((f) => ({ ...f, content_type: 'poem' }))}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
-                    form.content_type === 'poem'
-                      ? 'bg-[#8b2500] text-white border-[#8b2500]'
-                      : 'bg-white text-[#1c1c1c]/60 border-[#c89b3c]/40 hover:border-[#c89b3c]'
-                  }`}
-                >
-                  ≣ Thơ (căn giữa)
-                </button>
-              </div>
               <textarea
-                className={`w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[120px] resize-y ${
-                  form.content_type === 'poem' ? 'text-center' : 'text-justify'
-                }`}
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[120px] resize-y"
                 value={form.content_summary}
                 onChange={(e) => setForm((f) => ({ ...f, content_summary: e.target.value }))}
                 placeholder="Truyện kể về cuộc đời đầy bi kịch của Thúy Kiều..."
@@ -409,7 +381,7 @@ function WorkModal({
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Đặc sắc nghệ thuật</label>
               <p className="text-xs text-[#1c1c1c]/50 mb-1.5">Ngôn ngữ, thể thơ, hình ảnh, biện pháp nghệ thuật tiêu biểu</p>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[100px] resize-y"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[100px] resize-y"
                 value={form.art_features}
                 onChange={(e) => setForm((f) => ({ ...f, art_features: e.target.value }))}
                 placeholder="Sử dụng thể thơ lục bát truyền thống, ngôn ngữ tinh tế giàu hình ảnh..."
@@ -419,7 +391,7 @@ function WorkModal({
               <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Ý nghĩa / Giá trị</label>
               <p className="text-xs text-[#1c1c1c]/50 mb-1.5">Giá trị nhân đạo, hiện thực, vị trí trong văn học dân tộc</p>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[100px] resize-y"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[100px] resize-y"
                 value={form.significance}
                 onChange={(e) => setForm((f) => ({ ...f, significance: e.target.value }))}
                 placeholder="Truyện Kiều là đỉnh cao của văn học cổ điển Việt Nam, thể hiện tinh thần nhân đạo sâu sắc..."
@@ -435,7 +407,7 @@ function WorkModal({
                 <span className="flex items-center gap-1.5"><Clock size={13} />Năm / Giai đoạn sáng tác</span>
               </label>
               <input
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                 value={form.composition_year}
                 onChange={(e) => setForm((f) => ({ ...f, composition_year: e.target.value }))}
                 placeholder="1813–1820"
@@ -443,12 +415,40 @@ function WorkModal({
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Nội dung chi tiết (HTML)</label>
+              <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Nội dung chi tiết</label>
+              {/* Loại văn bản */}
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-semibold text-[#1c1c1c]/60">Kiểu văn bản:</span>
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, content_type: 'prose' }))}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
+                    form.content_type === 'prose'
+                      ? 'bg-[#1a4f99] text-white border-[#1a4f99]'
+                      : 'bg-white text-[#1c1c1c]/60 border-[#3b82c4]/40 hover:border-[#3b82c4]'
+                  }`}
+                >
+                  ═ Truyện (căn 2 bên)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, content_type: 'poem' }))}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${
+                    form.content_type === 'poem'
+                      ? 'bg-[#1a4f99] text-white border-[#1a4f99]'
+                      : 'bg-white text-[#1c1c1c]/60 border-[#3b82c4]/40 hover:border-[#3b82c4]'
+                  }`}
+                >
+                  ≣ Thơ (căn giữa)
+                </button>
+              </div>
               <textarea
-                className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] min-h-[120px] resize-y font-mono text-sm"
+                className={`w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] min-h-[180px] resize-y ${
+                  form.content_type === 'poem' ? 'text-center' : 'text-justify'
+                }`}
                 value={form.content_html}
                 onChange={(e) => setForm((f) => ({ ...f, content_html: e.target.value }))}
-                placeholder="<p>Nội dung HTML chi tiết...</p>"
+                placeholder="Nhập toàn bộ nội dung văn bản ở đây... Hỗ trợ # Tiêu đề, ## Tiêu đề 2, - danh sách"
               />
             </div>
 
@@ -456,7 +456,7 @@ function WorkModal({
               <div>
                 <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">YouTube Embed ID</label>
                 <input
-                  className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                  className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                   value={form.youtube_embed_id}
                   onChange={(e) => setForm((f) => ({ ...f, youtube_embed_id: e.target.value }))}
                   placeholder="dQw4w9WgXcQ"
@@ -465,7 +465,7 @@ function WorkModal({
               <div>
                 <label className="block text-sm font-semibold text-[#1c1c1c] mb-1">Tọa độ bản đồ</label>
                 <input
-                  className="w-full border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c]"
+                  className="w-full border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4]"
                   value={form.map_coordinates}
                   onChange={(e) => setForm((f) => ({ ...f, map_coordinates: e.target.value }))}
                   placeholder="16.0544,108.2022"
@@ -481,7 +481,7 @@ function WorkModal({
                 {form.reference_links.map((link, i) => (
                   <div key={i} className="flex gap-2">
                     <input
-                      className="flex-1 border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                      className="flex-1 border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                       value={link.title}
                       onChange={(e) => setForm((f) => {
                         const links = [...f.reference_links];
@@ -491,7 +491,7 @@ function WorkModal({
                       placeholder="Tiêu đề"
                     />
                     <input
-                      className="flex-1 border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                      className="flex-1 border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                       value={link.url}
                       onChange={(e) => setForm((f) => {
                         const links = [...f.reference_links];
@@ -502,7 +502,7 @@ function WorkModal({
                     />
                     <button
                       onClick={() => setForm((f) => ({ ...f, reference_links: f.reference_links.filter((_, j) => j !== i) }))}
-                      className="text-[#8b2500] hover:text-[#6b1a00] flex-shrink-0 px-1"
+                      className="text-[#1a4f99] hover:text-[#143d7a] flex-shrink-0 px-1"
                     >
                       <X size={16} />
                     </button>
@@ -510,7 +510,7 @@ function WorkModal({
                 ))}
                 <button
                   onClick={() => setForm((f) => ({ ...f, reference_links: [...f.reference_links, { title: '', url: '' }] }))}
-                  className="flex items-center gap-1.5 text-sm text-[#8b2500] hover:text-[#c89b3c] transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-[#1a4f99] hover:text-[#3b82c4] transition-colors"
                 >
                   <Plus size={14} /> Thêm liên kết
                 </button>
@@ -526,20 +526,20 @@ function WorkModal({
             {/* Existing assets */}
             <div className="space-y-2">
               {assets.map((asset, i) => (
-                <div key={i} className="flex items-center gap-3 bg-white rounded p-3 border border-[#c89b3c]/20">
+                <div key={i} className="flex items-center gap-3 bg-white rounded p-3 border border-[#3b82c4]/20">
                   {asset.asset_type === 'image' ? (
                     <img src={asset.catbox_url} className="w-12 h-12 object-cover rounded flex-shrink-0" alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
                   ) : (
-                    <Video size={24} className="text-[#8b2500] flex-shrink-0" />
+                    <Video size={24} className="text-[#1a4f99] flex-shrink-0" />
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-[#1c1c1c]/60 truncate">{asset.catbox_url}</p>
                     <p className="text-sm text-[#1c1c1c]">{asset.description || <span className="italic text-[#1c1c1c]/40">Không có mô tả</span>}</p>
                   </div>
-                  <span className="text-xs bg-[#c89b3c]/20 text-[#8b2500] px-2 py-0.5 rounded">{asset.asset_type}</span>
+                  <span className="text-xs bg-[#3b82c4]/20 text-[#1a4f99] px-2 py-0.5 rounded">{asset.asset_type}</span>
                   <button
                     onClick={() => setAssets((a) => a.filter((_, j) => j !== i))}
-                    className="text-[#8b2500] hover:text-[#6b1a00] flex-shrink-0"
+                    className="text-[#1a4f99] hover:text-[#143d7a] flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -548,17 +548,17 @@ function WorkModal({
             </div>
 
             {/* Add new asset */}
-            <div className="border border-dashed border-[#c89b3c]/40 rounded-lg p-4 space-y-3">
+            <div className="border border-dashed border-[#3b82c4]/40 rounded-lg p-4 space-y-3">
               <p className="text-sm font-semibold text-[#1c1c1c]">Thêm media mới</p>
               <div className="grid grid-cols-2 gap-2">
                 <input
-                  className="border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm col-span-2"
+                  className="border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm col-span-2"
                   value={newAsset.catbox_url}
                   onChange={(e) => setNewAsset((a) => ({ ...a, catbox_url: e.target.value }))}
                   placeholder="URL ảnh/video (https://...)"
                 />
                 <select
-                  className="border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                  className="border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                   value={newAsset.asset_type}
                   onChange={(e) => setNewAsset((a) => ({ ...a, asset_type: e.target.value }))}
                 >
@@ -568,7 +568,7 @@ function WorkModal({
                   <option value="document">Tài liệu</option>
                 </select>
                 <input
-                  className="border border-[#c89b3c]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#c89b3c] text-sm"
+                  className="border border-[#3b82c4]/40 rounded px-3 py-2 bg-white text-[#1c1c1c] focus:outline-none focus:border-[#3b82c4] text-sm"
                   value={newAsset.description}
                   onChange={(e) => setNewAsset((a) => ({ ...a, description: e.target.value }))}
                   placeholder="Mô tả (tùy chọn)"
@@ -577,7 +577,7 @@ function WorkModal({
               <button
                 onClick={addAsset}
                 disabled={!newAsset.catbox_url.trim()}
-                className="flex items-center gap-2 px-4 py-2 bg-[#2c241b] text-[#e0d8c8] text-sm rounded hover:bg-[#c89b3c] hover:text-[#1c1c1c] disabled:opacity-40 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#1b2d47] text-[#ccd8ef] text-sm rounded hover:bg-[#3b82c4] hover:text-[#1c1c1c] disabled:opacity-40 transition-colors"
               >
                 <Image size={14} />
                 Thêm vào danh sách
@@ -590,7 +590,7 @@ function WorkModal({
           <button
             onClick={handleSave}
             disabled={saving || uploading || !form.title.trim()}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#c89b3c] text-[#1c1c1c] font-semibold rounded hover:bg-[#a07830] disabled:opacity-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#3b82c4] text-[#1c1c1c] font-semibold rounded hover:bg-[#2d6db5] disabled:opacity-50 transition-colors"
           >
             <Save size={16} />
             {saving ? 'Đang lưu...' : 'Lưu'}
@@ -670,7 +670,7 @@ export function WorksSection() {
     return (
       <section id="works" className="py-20 px-4">
         <div className="container mx-auto text-center">
-          <div className="animate-pulse text-[#c89b3c]">Đang tải...</div>
+          <div className="animate-pulse text-[#3b82c4]">Đang tải...</div>
         </div>
       </section>
     );
@@ -680,11 +680,11 @@ export function WorksSection() {
     <section id="works" className="py-20 px-4 bg-[#1a1a1a]">
       <div className="container mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#c89b3c] tracking-wider uppercase mb-4">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-[#3b82c4] tracking-wider uppercase mb-4">
             Kho Tàng Tác Phẩm
           </h2>
-          <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#c89b3c] to-transparent mx-auto mb-6"></div>
-          <p className="text-xl text-[#e0d8c8]/80 max-w-2xl mx-auto mb-8">
+          <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#3b82c4] to-transparent mx-auto mb-6"></div>
+          <p className="text-base md:text-xl text-[#ccd8ef]/80 max-w-2xl mx-auto mb-8">
             Những tác phẩm bất hủ trong chương trình văn học THCS
           </p>
 
@@ -694,8 +694,8 @@ export function WorksSection() {
               onClick={() => setSelectedGenreId(null)}
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 selectedGenreId === null
-                  ? 'bg-[#c89b3c] text-[#1a1a1a] shadow-lg shadow-[#c89b3c]/30'
-                  : 'bg-[#2c241b] text-[#e0d8c8]/70 hover:text-[#e0d8c8] hover:bg-[#3a2f24]'
+                  ? 'bg-[#3b82c4] text-[#1a1a1a] shadow-lg shadow-[#3b82c4]/30'
+                  : 'bg-[#1b2d47] text-[#ccd8ef]/70 hover:text-[#ccd8ef] hover:bg-[#3a2f24]'
               }`}
             >
               Tất cả
@@ -705,8 +705,8 @@ export function WorksSection() {
                 onClick={() => setSelectedGenreId(g.id)}
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                   selectedGenreId === g.id
-                    ? 'bg-[#c89b3c] text-[#1a1a1a] shadow-lg shadow-[#c89b3c]/30'
-                    : 'bg-[#2c241b] text-[#e0d8c8]/70 hover:text-[#e0d8c8] hover:bg-[#3a2f24]'
+                    ? 'bg-[#3b82c4] text-[#1a1a1a] shadow-lg shadow-[#3b82c4]/30'
+                    : 'bg-[#1b2d47] text-[#ccd8ef]/70 hover:text-[#ccd8ef] hover:bg-[#3a2f24]'
                 }`}
               >
                 {g.name}
@@ -719,7 +719,7 @@ export function WorksSection() {
           <div className="flex justify-end mb-6">
             <button
               onClick={() => setModalWork('new')}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#c89b3c] text-[#1a1a1a] font-semibold rounded-lg hover:bg-[#a07830] transition-colors shadow-lg"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#3b82c4] text-[#1a1a1a] font-semibold rounded-lg hover:bg-[#2d6db5] transition-colors shadow-lg"
             >
               <Plus size={18} />
               Thêm tác phẩm
@@ -729,10 +729,10 @@ export function WorksSection() {
 
         {works.filter((w) => selectedGenreId === null || w.genre_id === selectedGenreId).length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-[#e0d8c8]/60 text-lg">
+            <p className="text-[#ccd8ef]/60 text-lg">
               Chưa có dữ liệu tác phẩm.{' '}
               {isEditMode && (
-                <button onClick={() => setModalWork('new')} className="text-[#c89b3c] underline">
+                <button onClick={() => setModalWork('new')} className="text-[#3b82c4] underline">
                   Thêm tác phẩm đầu tiên
                 </button>
               )}
@@ -744,7 +744,7 @@ export function WorksSection() {
             <button
               onClick={() => scrollCarousel('left')}
               disabled={!canScrollLeft}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-5 z-10 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#3b82c4] text-[#1a1a1a] hidden sm:flex items-center justify-center shadow-xl hover:bg-[#2d6db5] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
               aria-label="Cuộn trái"
             >
               <ChevronLeft size={22} />
@@ -764,21 +764,21 @@ export function WorksSection() {
               className="flex-none w-52"
             >
             <div
-              className="spotlight-hover bg-[#f4ecd8] rounded-lg overflow-hidden relative group cursor-pointer h-full"
+              className="spotlight-hover bg-[#eff4fc] rounded-lg overflow-hidden relative group cursor-pointer h-full"
               onClick={() => !isEditMode && setSelectedWork(work)}
             >
               {isEditMode && (
                 <div className="absolute top-3 right-3 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={(e) => { e.stopPropagation(); setModalWork(work); }}
-                    className="w-8 h-8 bg-[#c89b3c] rounded-full flex items-center justify-center hover:bg-[#a07830] transition-colors shadow"
+                    className="w-8 h-8 bg-[#3b82c4] rounded-full flex items-center justify-center hover:bg-[#2d6db5] transition-colors shadow"
                     title="Sửa tác phẩm"
                   >
                     <Pencil size={14} className="text-[#1a1a1a]" />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(work); }}
-                    className="w-8 h-8 bg-[#8b2500] rounded-full flex items-center justify-center hover:bg-[#6b1a00] transition-colors shadow"
+                    className="w-8 h-8 bg-[#1a4f99] rounded-full flex items-center justify-center hover:bg-[#143d7a] transition-colors shadow"
                     title="Xóa tác phẩm"
                   >
                     <Trash2 size={14} className="text-white" />
@@ -787,7 +787,7 @@ export function WorksSection() {
               )}
 
               {/* Ảnh bìa – giống thẻ tác giả */}
-              <div className="aspect-[3/4] bg-[#2c241b] flex items-center justify-center overflow-hidden">
+              <div className="aspect-[3/4] bg-[#1b2d47] flex items-center justify-center overflow-hidden">
                 {work.cover_image_url ? (
                   <img
                     src={work.cover_image_url}
@@ -795,7 +795,7 @@ export function WorksSection() {
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                   />
                 ) : (
-                  <BookMarked className="w-16 h-16 text-[#c89b3c]" strokeWidth={1} />
+                  <BookMarked className="w-16 h-16 text-[#3b82c4]" strokeWidth={1} />
                 )}
               </div>
 
@@ -804,12 +804,12 @@ export function WorksSection() {
                   {work.title}
                 </h3>
                 {work.author && (
-                  <p className="text-xs text-[#8b2500] font-medium mb-2 tracking-wider">
+                  <p className="text-xs text-[#1a4f99] font-medium mb-2 tracking-wider">
                     {work.author.name}
                   </p>
                 )}
                 {work.genre && (
-                  <span className="inline-block px-2 py-0.5 bg-[#c89b3c]/15 text-[#8b2500] rounded text-xs font-medium border border-[#c89b3c]/30 mb-2">
+                  <span className="inline-block px-2 py-0.5 bg-[#3b82c4]/15 text-[#1a4f99] rounded text-xs font-medium border border-[#3b82c4]/30 mb-2">
                     {work.genre.name}
                   </span>
                 )}
@@ -817,12 +817,12 @@ export function WorksSection() {
                 {(work.period || work.composition_year) && (
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     {work.period && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#2c241b] text-[#e0d8c8] rounded text-xs">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#1b2d47] text-[#ccd8ef] rounded text-xs">
                         {work.period.period_name}
                       </span>
                     )}
                     {work.composition_year && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#c89b3c]/15 text-[#8b2500] rounded text-xs font-medium border border-[#c89b3c]/30">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#3b82c4]/15 text-[#1a4f99] rounded text-xs font-medium border border-[#3b82c4]/30">
                         <Clock size={10} />
                         {work.composition_year}
                       </span>
@@ -831,7 +831,7 @@ export function WorksSection() {
                 )}
 
                 {work.excerpt && (
-                  <p className="text-[#1c1c1c]/80 italic leading-relaxed line-clamp-2 border-l-4 border-[#c89b3c] pl-3 text-xs">
+                  <p className="text-[#1c1c1c]/80 italic leading-relaxed line-clamp-2 border-l-4 border-[#3b82c4] pl-3 text-xs">
                     "{work.excerpt}"
                   </p>
                 )}
@@ -839,7 +839,7 @@ export function WorksSection() {
                 {isEditMode && (
                   <button
                     onClick={(e) => { e.stopPropagation(); setModalWork(work); }}
-                    className="mt-3 flex items-center gap-1.5 text-sm text-[#8b2500] hover:text-[#c89b3c] transition-colors font-medium"
+                    className="mt-3 flex items-center gap-1.5 text-sm text-[#1a4f99] hover:text-[#3b82c4] transition-colors font-medium"
                   >
                     <Pencil size={13} />
                     Chỉnh sửa
@@ -855,7 +855,7 @@ export function WorksSection() {
             <button
               onClick={() => scrollCarousel('right')}
               disabled={!canScrollRight}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-11 h-11 rounded-full bg-[#c89b3c] text-[#1a1a1a] flex items-center justify-center shadow-xl hover:bg-[#a07830] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-5 z-10 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#3b82c4] text-[#1a1a1a] hidden sm:flex items-center justify-center shadow-xl hover:bg-[#2d6db5] transition-all duration-200 disabled:opacity-0 disabled:pointer-events-none"
               aria-label="Cuộn phải"
             >
               <ChevronRight size={22} />
@@ -882,49 +882,49 @@ export function WorksSection() {
 export function WorkDetailModal({ work, onClose }: { work: Work; onClose: () => void }) {
   return (
     <div
-      className="fixed inset-0 bg-black/90 z-50 flex items-start justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 bg-black/90 z-[60] flex items-start justify-center p-4 overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="bg-[#f4ecd8] rounded-2xl max-w-4xl w-full shadow-2xl my-6"
+        className="modal-enter bg-[#eff4fc] rounded-2xl max-w-4xl w-full shadow-2xl my-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-6">
             <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8b2500] mb-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1a4f99] mb-1">
                 Tác Phẩm
               </p>
-              <h2 className="text-4xl font-serif font-bold text-[#1c1c1c] leading-tight mb-2">
+              <h2 className="text-2xl md:text-4xl font-serif font-bold text-[#1c1c1c] leading-tight mb-2">
                 {work.title}
               </h2>
               {work.author && (
-                <p className="text-xl text-[#8b2500] font-semibold">
+                <p className="text-base md:text-xl text-[#1a4f99] font-semibold">
                   {work.author.name}
                 </p>
               )}
               {work.genre && (
-                <span className="inline-block mt-2 px-3 py-1 bg-[#c89b3c]/15 text-[#8b2500] rounded-full text-sm font-medium border border-[#c89b3c]/30">
+                <span className="inline-block mt-2 px-3 py-1 bg-[#3b82c4]/15 text-[#1a4f99] rounded-full text-sm font-medium border border-[#3b82c4]/30">
                   {work.genre.name}
                 </span>
               )}
             </div>
             <button
               onClick={onClose}
-              className="w-9 h-9 rounded-full bg-[#2c241b]/10 flex items-center justify-center hover:bg-[#2c241b]/20 transition-colors flex-shrink-0"
+              className="w-9 h-9 rounded-full bg-[#1b2d47]/10 flex items-center justify-center hover:bg-[#1b2d47]/20 transition-colors flex-shrink-0"
             >
               <X size={18} className="text-[#1c1c1c]" />
             </button>
           </div>
 
-          <div className="w-24 h-px bg-[#c89b3c] mb-6" />
+          <div className="w-24 h-px bg-[#3b82c4] mb-6" />
 
           <WorkContentView work={work} />
 
           <button
             onClick={onClose}
-            className="w-full mt-8 px-8 py-4 bg-[#2c241b] text-[#e0d8c8] uppercase tracking-widest font-semibold rounded-lg hover:bg-[#c89b3c] hover:text-[#1c1c1c] transition-colors duration-300"
+            className="w-full mt-8 px-8 py-4 bg-[#1b2d47] text-[#ccd8ef] uppercase tracking-widest font-semibold rounded-lg hover:bg-[#3b82c4] hover:text-[#1c1c1c] transition-colors duration-300"
           >
             Đóng
           </button>

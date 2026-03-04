@@ -74,3 +74,24 @@ export type MultimediaAsset = {
   description: string | null;
   created_at: string;
 };
+
+export type Comment = {
+  id: string;
+  work_id: string;
+  author_name: string;
+  body: string;
+  created_at: string;
+  work?: Pick<Work, 'id' | 'title'>;
+};
+
+export type LiteraryTheory = {
+  id: string;
+  title: string;
+  category: string;
+  definition: string | null;
+  examples: string | null;
+  notes: string | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
