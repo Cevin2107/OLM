@@ -64,12 +64,10 @@ export function Footer() {
         <div className="border-t border-[#3b82c4]/20 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-[#ccd8ef]/60 text-sm">
-              © 2024 Bảo Tàng Văn Học Online. Dự án giáo dục phi lợi nhuận.
+              © 2026 Bảo Tàng Văn Học Online. Dự án giáo dục phi lợi nhuận.
             </p>
             <div className="flex items-center gap-2 text-[#ccd8ef]/60 text-sm">
-              <span>Được xây dựng với</span>
-              <Heart className="w-4 h-4 text-[#1a4f99] fill-[#1a4f99]" />
-              <span>cho giáo dục Việt Nam</span>
+              <span>Phát triển bởi Giáo viên Nguyễn Thị Minh Tân</span>
             </div>
           </div>
         </div>

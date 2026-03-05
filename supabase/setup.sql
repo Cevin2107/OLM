@@ -137,6 +137,9 @@ ALTER TABLE literary_periods ALTER COLUMN end_year   TYPE text USING end_year::t
 -- Cột sắp xếp thủ công dòng thời gian
 ALTER TABLE literary_periods ADD COLUMN IF NOT EXISTS sort_order integer DEFAULT 0;
 
+-- Chủ đề bình luận (khi không gắn với tác phẩm cụ thể)
+ALTER TABLE comments ADD COLUMN IF NOT EXISTS topic text;
+
 
 -- ─────────────────────────────────────────────────────────────
 -- 2. ROW LEVEL SECURITY

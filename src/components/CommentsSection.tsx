@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Send, BookOpen, Quote, User, Clock, Loader2, CheckCircle2, ChevronDown } from 'lucide-react';
+import { MessageCircle, Send, BookOpen, Quote, User, Clock, Loader2, CheckCircle2, ChevronDown, Globe, HelpCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { Comment, Work } from '../lib/supabase';
+
+type TopicType = 'work' | 'museum' | 'other';
 
 /* ─── helpers ─── */
 function timeAgo(iso: string): string {
@@ -43,12 +45,16 @@ function CommentCard({ comment, index, isNew }: { comment: Comment; index: numbe
         strokeWidth={1}
       />
 
-      {/* work badge */}
-      {comment.work && (
+      {/* topic badge */}
+      {(comment.work || comment.topic) && (
         <div className="flex items-center gap-1.5 mb-2">
-          <BookOpen size={11} className="text-[#3b82c4] flex-shrink-0" />
+          {comment.work
+            ? <BookOpen size={11} className="text-[#3b82c4] flex-shrink-0" />
+            : comment.topic === 'Bảo tàng văn học'
+              ? <Globe size={11} className="text-[#3b82c4] flex-shrink-0" />
+              : <HelpCircle size={11} className="text-[#3b82c4] flex-shrink-0" />}
           <span className="text-[10px] font-semibold uppercase tracking-widest text-[#1a4f99] truncate">
-            {comment.work.title}
+            {comment.work ? comment.work.title : comment.topic}
           </span>
         </div>
       )}
@@ -84,7 +90,9 @@ export function CommentsSection() {
 
   // form
   const [name, setName] = useState('');
+  const [topicType, setTopicType] = useState<TopicType>('work');
   const [workId, setWorkId] = useState('');
+  const [topicOther, setTopicOther] = useState('');
   const [body, setBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -152,16 +160,29 @@ export function CommentsSection() {
     return () => obs.disconnect();
   }, []);
 
+  function isFormValid() {
+    if (!name.trim() || !body.trim()) return false;
+    if (topicType === 'work') return !!workId;
+    if (topicType === 'other') return !!topicOther.trim();
+    return true; // museum
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !body.trim() || !workId) return;
+    if (!isFormValid()) return;
     setSubmitting(true);
     setError('');
-    const { error: err } = await supabase.from('comments').insert({
+    const insertPayload: Record<string, unknown> = {
       author_name: name.trim(),
       body: body.trim(),
-      work_id: workId,
-    });
+      work_id: topicType === 'work' ? workId : null,
+      topic: topicType === 'museum'
+        ? 'Bảo tàng văn học'
+        : topicType === 'other'
+          ? topicOther.trim()
+          : null,
+    };
+    const { error: err } = await supabase.from('comments').insert(insertPayload);
     setSubmitting(false);
     if (err) {
       setError('Có lỗi xảy ra, vui lòng thử lại.');
@@ -171,6 +192,8 @@ export function CommentsSection() {
     setName('');
     setBody('');
     setWorkId('');
+    setTopicOther('');
+    setTopicType('work');
     // auto-scroll to wall to see the comment appear
     setTimeout(() => {
       wallRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -198,7 +221,7 @@ export function CommentsSection() {
             Góc Bình Luận
           </h2>
           <p className="text-[#ccd8ef]/60 max-w-xl mx-auto text-base">
-            Chia sẻ cảm nhận của bạn về các tác phẩm trong bảo tàng
+            Chia sẻ cảm nhận, suy nghĩ của bạn về tác phẩm, trang web hoặc bất cứ điều gì bạn muốn góp ý
           </p>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#3b82c4] to-transparent mx-auto mt-5" />
         </div>
@@ -289,41 +312,103 @@ export function CommentsSection() {
                   </div>
                 </div>
 
-                {/* work selector */}
+                {/* topic type selector */}
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-[0.15em] text-[#3b82c4] mb-2">
-                    Tác phẩm
+                    Chủ đề bình luận
                   </label>
-                  <div className="relative">
-                    <BookOpen size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3b82c4]/60 pointer-events-none" />
-                    <select
-                      value={workId}
-                      onChange={(e) => setWorkId(e.target.value)}
-                      required
-                      className="w-full pl-9 pr-8 py-2.5 bg-[#1a1a1a]/60 border border-[#3b82c4]/25 rounded-lg text-[#ccd8ef] text-sm focus:outline-none focus:border-[#3b82c4] focus:ring-1 focus:ring-[#3b82c4]/30 transition-colors appearance-none"
-                    >
-                      <option value="" disabled className="bg-[#1b2d47] text-[#ccd8ef]/60">
-                        — Chọn tác phẩm —
-                      </option>
-                      {works.map((w) => (
-                        <option key={w.id} value={w.id} className="bg-[#1b2d47] text-[#ccd8ef]">
-                          {w.title}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#3b82c4]/60 pointer-events-none" />
+                  <div className="grid grid-cols-3 gap-2">
+                    {([
+                      { value: 'work',    icon: <BookOpen size={13} />,  label: 'Tác phẩm' },
+                      { value: 'museum',  icon: <Globe size={13} />,     label: 'Bảo tàng văn học' },
+                      { value: 'other',   icon: <HelpCircle size={13} />, label: 'Khác' },
+                    ] as { value: TopicType; icon: React.ReactNode; label: string }[]).map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setTopicType(opt.value)}
+                        className={`flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-lg border text-xs font-medium transition-all duration-200
+                          ${
+                            topicType === opt.value
+                              ? 'bg-[#3b82c4]/20 border-[#3b82c4] text-[#3b82c4]'
+                              : 'bg-[#1a1a1a]/60 border-[#3b82c4]/20 text-[#ccd8ef]/50 hover:border-[#3b82c4]/50 hover:text-[#ccd8ef]/80'
+                          }`}
+                      >
+                        {opt.icon}
+                        <span className="text-center leading-tight">{opt.label}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
+
+                {/* conditional: work dropdown */}
+                {topicType === 'work' && (
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-[0.15em] text-[#3b82c4] mb-2">
+                      Chọn tác phẩm
+                    </label>
+                    <div className="relative">
+                      <BookOpen size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3b82c4]/60 pointer-events-none" />
+                      <select
+                        value={workId}
+                        onChange={(e) => setWorkId(e.target.value)}
+                        required
+                        className="w-full pl-9 pr-8 py-2.5 bg-[#1a1a1a]/60 border border-[#3b82c4]/25 rounded-lg text-[#ccd8ef] text-sm focus:outline-none focus:border-[#3b82c4] focus:ring-1 focus:ring-[#3b82c4]/30 transition-colors appearance-none"
+                      >
+                        <option value="" disabled className="bg-[#1b2d47] text-[#ccd8ef]/60">
+                          — Chọn tác phẩm —
+                        </option>
+                        {works.map((w) => (
+                          <option key={w.id} value={w.id} className="bg-[#1b2d47] text-[#ccd8ef]">
+                            {w.title}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#3b82c4]/60 pointer-events-none" />
+                    </div>
+                  </div>
+                )}
+
+                {/* conditional: other topic input */}
+                {topicType === 'other' && (
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-[0.15em] text-[#3b82c4] mb-2">
+                      Nêu rõ chủ đề
+                    </label>
+                    <div className="relative">
+                      <HelpCircle size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3b82c4]/60" />
+                      <input
+                        type="text"
+                        value={topicOther}
+                        onChange={(e) => setTopicOther(e.target.value)}
+                        placeholder="Ví dụ: Giao diện website, nội dung khác..."
+                        maxLength={100}
+                        required
+                        className="w-full pl-9 pr-4 py-2.5 bg-[#1a1a1a]/60 border border-[#3b82c4]/25 rounded-lg text-[#ccd8ef] placeholder-[#ccd8ef]/30 text-sm focus:outline-none focus:border-[#3b82c4] focus:ring-1 focus:ring-[#3b82c4]/30 transition-colors"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {/* comment body */}
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-[0.15em] text-[#3b82c4] mb-2">
-                    Bình luận của bạn
+                    {
+                      topicType === 'work'   ? 'Cảm nhận về tác phẩm' :
+                      topicType === 'museum' ? 'Nhận xét về trang web' :
+                                              'Ý kiến của bạn'
+                    }
                   </label>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
-                    placeholder="Chia sẻ cảm nhận, suy nghĩ của bạn về tác phẩm này..."
+                    placeholder={
+                      topicType === 'work'
+                        ? 'Chia sẻ cảm nhận, suy nghĩ của bạn về tác phẩm này...'
+                        : topicType === 'museum'
+                          ? 'Bạn nghĩ gì về giao diện, nội dung hay tính năng của trang web?'
+                          : 'Nêu ý kiến, góp ý hoặc câu hỏi của bạn...'
+                    }
                     rows={5}
                     maxLength={600}
                     required
@@ -348,7 +433,7 @@ export function CommentsSection() {
                 ) : (
                   <button
                     type="submit"
-                    disabled={submitting || !name.trim() || !body.trim() || !workId}
+                    disabled={submitting || !isFormValid()}
                     className="w-full flex items-center justify-center gap-2.5 py-3 bg-[#3b82c4] hover:bg-[#2d6db5] disabled:opacity-50 disabled:cursor-not-allowed text-[#1a1a1a] font-semibold uppercase tracking-widest text-sm rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,196,0.4)]"
                   >
                     {submitting ? (

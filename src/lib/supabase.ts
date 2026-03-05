@@ -77,11 +77,12 @@ export type MultimediaAsset = {
 
 export type Comment = {
   id: string;
-  work_id: string;
+  work_id: string | null;
   author_name: string;
   body: string;
+  topic: string | null;
   created_at: string;
-  work?: Pick<Work, 'id' | 'title'>;
+  work?: Pick<Work, 'id' | 'title'> | null;
 };
 
 export type LiteraryTheory = {
